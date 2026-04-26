@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_mahasiswa', function (Blueprint $table) {
+        Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->string('FullName');
+            $table->string('Fullname');
             $table->string('NIM')->unique();
             $table->string('NIDN')->unique();
-            $table->string('tempat_lahir');
-            $table->date('Tangal_Lahir');
+            $table->string('tempat_Lahir');
+            $table->date('Tanggal_Lahir');
             $table->text('Alamat');
             $table->timestamps();
         });

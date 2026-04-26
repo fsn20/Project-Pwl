@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\create_table_jurusan;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class CreateTableJurusanController extends Controller
+class MahasiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('mahasiswa.index', [
+            'mahasiswa' => Mahasiswa::all()
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class CreateTableJurusanController extends Controller
      */
     public function create()
     {
-        //
+        return view('mahasiswa.create', []);
     }
 
     /**
@@ -28,38 +30,51 @@ class CreateTableJurusanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+
+        Mahasiswa::create($data);
+
+        return redirect()->action([MahasiswaController::class, 'index']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(create_table_jurusan $create_table_jurusan)
+    public function show($id)
     {
-        //
+        return Mahasiswa::find($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(create_table_jurusan $create_table_jurusan)
+    public function edit($id)
     {
-        //
+        return view('mahasiswa.edit', [
+            'mahasiswa' => Mahasiswa::find($id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, create_table_jurusan $create_table_jurusan)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token', 'id', '_method');
+
+        Mahasiswa::find($id)->update($data);
+
+        return redirect()->action([MahasiswaController::class, 'index']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(create_table_jurusan $create_table_jurusan)
-    {
-        //
-    }
+    public function destroy($id) // Tambahkan $id di sini
+{
+    // Cari data berdasarkan ID lalu hapus
+    \App\Models\Mahasiswa::find($id)->delete();
+
+    return redirect()->action([MahasiswaController::class, 'index']);
+}
 }
