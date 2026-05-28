@@ -13,7 +13,7 @@ class MatakuliahController extends Controller
     public function index()
     {
         return view('Matakuliah.index', [
-            'matakuliah' => Matakuliah::all()
+            'mata_kuliah' => Matakuliah::all()
         ]);
     }
 
@@ -50,8 +50,8 @@ class MatakuliahController extends Controller
      */
     public function edit($id)
     {
-        return view('matakuliah.edit', [
-            'matakuliah' => Matakuliah::find($id)
+        return view('Matakuliah.edit', [
+            'mata_kuliah' => Matakuliah::find($id)
         ]);
     }
 
@@ -60,9 +60,9 @@ class MatakuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token', 'id', '_method');
+        $data = $request->except('_token');
 
-        Matakuliah::findOrFail($id)->update($data);
+        Matakuliah::find($id)->update($data);
 
         return redirect()->action([MatakuliahController::class, 'index']);
     }
@@ -72,7 +72,7 @@ class MatakuliahController extends Controller
      */
     public function destroy($id)
     {
-        Matakuliah::findOrFail($id)->delete();
+        Matakuliah::find($id)->delete();//
 
         return redirect()->action([MatakuliahController::class, 'index']);
     }

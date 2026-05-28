@@ -4,6 +4,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,3 +47,9 @@ Route::post('/matakuliah', [MatakuliahController::class, 'store'])->name('mataku
 Route::get('/matakuliah-edit/{id}', [MatakuliahController::class, 'edit'])->name('matakuliah.update');
 Route::put('/matakuliah/{id}', [MatakuliahController::class, 'update'])->name('matakuliah.edit');
 Route::delete('/matakuliah/{id}', [MatakuliahController::class, 'destroy'])->name('matakuliah.delete');
+
+
+Route::get('/kelas', [KelasController::class, 'index']);
+Route::get('/kelas/create', [KelasController::class, 'create']);
+Route::post('/kelas/store', [KelasController::class, 'store']);
+Route::delete('/kelas/{id}', [KelasController::class, 'destroy']);
