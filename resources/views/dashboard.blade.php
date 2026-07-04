@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Website Kampus</title>
+    <title>ITBSS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -96,21 +96,44 @@
                                 Mata Kuliah
                             </a>
                         </li>
-
+                         <li>
+                            <a class="dropdown-item"
+                            href="{{ action([App\Http\Controllers\KelasController::class, 'index']) }}">
+                                Kelas
+                            </a>
+                        </li>
+                         <li>
+                            <a class="dropdown-item"
+                            href="{{ action([App\Http\Controllers\KrsController::class, 'index']) }}">
+                                KRS
+                            </a>
+                        </li>
+                         <li>
+                            <a class="dropdown-item"
+                            href="{{ action([App\Http\Controllers\KrsDetailController::class, 'index']) }}">
+                                KRS Detail
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
 
-            <form class="d-flex">
-                <input class="form-control me-2"
-                    type="search"
-                    placeholder="Search">
+@auth
+<div class="d-flex align-items-center">
 
-                <button class="btn btn-success"
-                    type="submit">
-                    Search
-                </button>
-            </form>
+    <span class="me-3 fw-semibold">
+        Halo, {{ Auth::user()->name }}
+    </span>
+
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-outline-danger">
+            Logout
+        </button>
+    </form>
+
+</div>
+@endauth
 
         </div>
     </div>
