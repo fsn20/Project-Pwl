@@ -1,83 +1,40 @@
-<?php
-
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Menampilkan halaman Login
-     */
     public function loginView()
     {
-        return view('login');
+        return view('auth.login');
     }
 
-    /**
-     * Menampilkan halaman Register
-     */
     public function registerView()
     {
-        return view('register');
+        return view('auth.register');
     }
 
-    /**
-     * Proses Register
-     */
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return redirect('/login')->with('success', 'Register berhasil, silakan login.');
-    }
-
-    /**
-     * Proses Login
-     */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-
-            $request->session()->regenerate();
-
-            return redirect()->intended('/mahasiswa');
+            return redirect('/');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau Password salah.',
-        ])->onlyInput('email');
+        return back()->with('error', 'Login gagal');
     }
 
-    /**
-     * Logout
-     */
-    public function logout(Request $request)
+    public function register(Request $request)
+    {
+        // simple register (bisa kamu upgrade nanti)
+        return back();
+    }
+
+    public function logout()
     {
         Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect('/login');
     }
 }
