@@ -79,3 +79,83 @@ body{
 .menu-card:hover p{
     color:white;
 }
+
+/* ========================= */
+/* DARK MODE BIRU */
+/* ========================= */
+
+body{
+    transition:0.4s;
+}
+
+/* Background utama */
+.dark-mode{
+    background:#0b1f3a;
+    color:#ffffff;
+}
+
+/* Navbar */
+.dark-mode .navbar{
+    background:#081729 !important;
+}
+
+/* Card */
+.dark-mode .card,
+.dark-mode .welcome-card,
+.dark-mode .menu-card{
+    background:#102a4d !important;
+    color:white;
+    border:1px solid #1d4f91;
+}
+
+/* Efek hover menu */
+.dark-mode .menu-card:hover{
+    background:#1d4f91 !important;
+    transform:translateY(-5px);
+}
+
+/* Tabel */
+.dark-mode table{
+    background:#102a4d;
+    color:white;
+}
+
+.dark-mode th{
+    background:#1d4f91 !important;
+    color:white;
+}
+
+.dark-mode td{
+    background:#102a4d;
+    color:white;
+    border-color:#315b96;
+}
+
+/* Form */
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea{
+    background:#163b6b;
+    color:white;
+    border:1px solid #315b96;
+}
+
+.dark-mode input::placeholder{
+    color:#d0d8e5;
+}
+
+/* Tombol */
+.dark-mode .btn-light{
+    background:#1d4f91;
+    color:white;
+    border:none;
+}
+
+.dark-mode .btn-warning{
+    color:black;
+}
+
+.dark-mode .btn-primary{
+    background:#2563eb;
+    border:none;
+}

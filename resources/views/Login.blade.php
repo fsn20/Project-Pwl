@@ -1,132 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem Akademik</title>
+    <title>Login Sistem Akademik</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        body{
-            background: linear-gradient(135deg,#0d6efd,#6ea8fe);
-            height:100vh;
-        }
-
-        .login-card{
-            width:100%;
-            max-width:420px;
-            border:none;
-            border-radius:15px;
-        }
-
-        .logo{
-            width:90px;
-            display:block;
-            margin:auto;
-        }
-
-        .btn-login{
-            border-radius:10px;
-        }
-
-        .form-control{
-            border-radius:10px;
-        }
-
-        .card{
-            box-shadow:0 10px 25px rgba(0,0,0,.2);
-        }
-    </style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
 
-<div class="container h-100">
+<body class="bg-light">
 
-    <div class="row justify-content-center align-items-center h-100">
+<div class="container">
+
+    <div class="row justify-content-center mt-5">
 
         <div class="col-md-5">
 
-            <div class="card login-card">
+            <div class="card shadow">
 
-                <div class="card-body p-4">
+                <div class="card-header text-center bg-primary text-white">
+                    <h3>Login</h3>
+                </div>
 
-                    <img src="{{ asset('images/ITB-SS.jpg') }}" class="logo mb-3">
+                <div class="card-body">
 
-                    <h3 class="text-center fw-bold">
-                        Login
-                    </h3>
-
-                    <p class="text-center text-muted mb-4">
-                        Sistem Informasi Akademik ITBSS
-                    </p>
-
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    @if($errors->any())
+                    @if(session('error'))
                         <div class="alert alert-danger">
-                            {{ $errors->first() }}
+                            {{ session('error') }}
                         </div>
                     @endif
 
-                    <form action="{{ route('login') }}" method="POST">
-
+                    <form method="POST" action="{{ url('/login') }}">
                         @csrf
 
                         <div class="mb-3">
-
-                            <label class="form-label">
-                                Email
-                            </label>
-
+                            <label>Email</label>
                             <input
                                 type="email"
-                                class="form-control"
                                 name="email"
+                                class="form-control"
                                 required>
-
                         </div>
 
-                        <div class="mb-4">
-
-                            <label class="form-label">
-                                Password
-                            </label>
-
+                        <div class="mb-3">
+                            <label>Password</label>
                             <input
                                 type="password"
-                                class="form-control"
                                 name="password"
+                                class="form-control"
                                 required>
-
                         </div>
 
-                        <button
-                            class="btn btn-primary w-100 btn-login"
-                            type="submit">
-
+                        <button class="btn btn-primary w-100">
                             Login
-
                         </button>
 
                     </form>
-
-                    <hr>
-
-                    <div class="text-center">
-
-                        Belum punya akun?
-
-                        <a href="{{ route('register.view') }}">
-                            Register
-                        </a>
-
-                    </div>
 
                 </div>
 
@@ -137,8 +67,6 @@
     </div>
 
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

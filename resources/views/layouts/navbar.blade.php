@@ -1,25 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 
-<div class="container">
+    <div class="container">
 
-<a class="navbar-brand fw-bold" href="/">
+        <a class="navbar-brand fw-bold" href="/">
+            <img src="{{ asset('images/Logo-ITBSS.png') }}" width="40">
+            Sistem Akademik
+        </a>
 
-<img src="{{ asset('images/Logo-ITBSS.png') }}" width="40">
+        <div class="ms-auto d-flex align-items-center">
 
-Sistem Akademik
+            <a href="/" class="nav-link text-white me-3">
+                Dashboard
+            </a>
 
-</a>
+            <!-- Tombol Dark Mode -->
+            <button id="themeToggle" class="btn btn-outline-light">
+                🌙 Dark Mode
+            </button>
 
-<div class="ms-auto">
+        </div>
 
-<a href="/" class="nav-link text-white">
-
-Dashboard
-
-</a>
-
-</div>
-
-</div>
+    </div>
 
 </nav>
