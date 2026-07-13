@@ -1,72 +1,244 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Login Sistem Akademik</title>
+@extends('layouts.app')
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('content')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<h1 style="color:red;text-align:center">
+TEST LOGIN ITBSS
+</h1>
 
-<body class="bg-light">
+<style>
 
-<div class="container">
+body{
 
-    <div class="row justify-content-center mt-5">
+    background-image:
+    linear-gradient(
+        rgba(13,110,253,.75),
+        rgba(80,20,150,.75)
+    ),
+    url('{{ asset("images/Website-PMB-26-27.jpg") }}');
 
-        <div class="col-md-5">
 
-            <div class="card shadow">
+    background-size:cover;
 
-                <div class="card-header text-center bg-primary text-white">
-                    <h3>Login</h3>
-                </div>
+    background-position:center;
 
-                <div class="card-body">
+    min-height:100vh;
 
-                    @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
+}
 
-                    <form method="POST" action="{{ url('/login') }}">
-                        @csrf
 
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control"
-                                required>
-                        </div>
 
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control"
-                                required>
-                        </div>
+.login-container{
 
-                        <button class="btn btn-primary w-100">
-                            Login
-                        </button>
+    min-height:85vh;
 
-                    </form>
+    display:flex;
 
-                </div>
+    justify-content:center;
 
-            </div>
+    align-items:center;
 
-        </div>
+}
 
-    </div>
+
+
+.login-card{
+
+    width:420px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.95);
+
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+}
+
+
+
+.login-logo img{
+
+    width:120px;
+
+}
+
+
+
+.form-control{
+
+    border-radius:12px;
+
+    padding:12px;
+
+}
+
+
+
+.btn-login{
+
+
+    background:linear-gradient(
+        135deg,
+        #0d6efd,
+        #8e44ff
+    );
+
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:12px;
+
+
+}
+
+
+
+.btn-login:hover{
+
+
+    background:linear-gradient(
+        135deg,
+        #8e44ff,
+        #0d6efd
+    );
+
+
+    color:white;
+
+}
+
+
+
+</style>
+
+
+
+
+
+<div class="login-container">
+
+
+
+<div class="card login-card p-4">
+
+
+
+<div class="text-center login-logo">
+
+
+<img src="{{ asset('images/Logo-ITBSS.png') }}">
+
+
+
+<h3 class="fw-bold mt-3">
+
+ITBSS Academic System
+
+</h3>
+
+
+
+<p class="text-muted">
+
+Silahkan login untuk masuk ke sistem
+
+</p>
+
+
 
 </div>
 
-</body>
-</html>
+
+
+
+
+<form method="POST"
+action="{{ route('login') }}">
+
+
+@csrf
+
+
+
+
+
+<div class="mb-3">
+
+
+<label class="fw-bold">
+
+Email
+
+</label>
+
+
+<input type="email"
+name="email"
+class="form-control"
+placeholder="Masukkan email"
+required>
+
+
+</div>
+
+
+
+
+
+
+<div class="mb-3">
+
+
+<label class="fw-bold">
+
+Password
+
+</label>
+
+
+<input type="password"
+name="password"
+class="form-control"
+placeholder="Masukkan password"
+required>
+
+
+</div>
+
+
+
+
+
+
+<div class="d-grid">
+
+
+<button class="btn btn-login">
+
+Login
+
+</button>
+
+
+</div>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</div>
+
+
+@endsection

@@ -1,170 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Mata Kuliah</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="card shadow">
 
-        body{
-            background:#f4f6f9;
-            padding:30px;
-        }
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-        .container{
-            max-width:1200px;
-            margin:auto;
-        }
+        <h4 class="mb-0">
+            Data Mata Kuliah
+        </h4>
 
-        h1{
-            color:#1e3a8a;
-            margin-bottom:20px;
-        }
+        <a href="{{ route('matakuliah.add') }}" class="btn btn-success">
+            + Tambah Mata Kuliah
+        </a>
 
-        .btn-create{
-            display:inline-block;
-            text-decoration:none;
-            background:#16a34a;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-            margin-bottom:20px;
-            font-weight:bold;
-        }
+    </div>
 
-        .btn-create:hover{
-            background:#15803d;
-        }
+    <div class="card-body">
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            border-radius:10px;
-            overflow:hidden;
-        }
+        <div class="table-responsive">
 
-        th{
-            background:#1e3a8a;
-            color:white;
-            padding:14px;
-        }
+            <table class="table table-bordered table-hover align-middle">
 
-        td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #ddd;
-        }
+                <thead class="table-dark">
 
-        tr:hover{
-            background:#f1f5f9;
-        }
+                    <tr>
+                        <th>No</th>
+                        <th>Jurusan</th>
+                        <th>Kode Mata Kuliah</th>
+                        <th>Nama Mata Kuliah</th>
+                        <th>Tanggal Dibuat</th>
+                        <th width="170">Aksi</th>
+                    </tr>
 
-        .btn-edit{
-            background:#f59e0b;
-            color:white;
-            text-decoration:none;
-            padding:8px 15px;
-            border-radius:6px;
-            display:inline-block;
-            margin-bottom:8px;
-        }
+                </thead>
 
-        .btn-edit:hover{
-            background:#d97706;
-        }
+                <tbody>
 
-        .btn-delete{
-            background:#dc2626;
-            color:white;
-            border:none;
-            padding:8px 15px;
-            border-radius:6px;
-            cursor:pointer;
-        }
+                @forelse($matakuliah as $m)
 
-        .btn-delete:hover{
-            background:#b91c1c;
-        }
+                    <tr>
 
-    </style>
+                        <td>{{ $m->id }}</td>
+                        <td>{{ $m->Jurusan }}</td>
+                        <td>{{ $m->KodeMK }}</td>
+                        <td>{{ $m->NamaMK }}</td>
+                        <td>{{ $m->created_at }}</td>
 
-</head>
+                        <td>
 
-<body>
+                            <a href="{{ route('matakuliah.update',$m->id) }}"
+                               class="btn btn-warning btn-sm">
 
-<div class="container">
+                                Edit
 
-    <h1>📖 Data Mata Kuliah</h1>
+                            </a>
 
-    <a href="{{ route('matakuliah.add') }}" class="btn-create">
-        + Tambah Mata Kuliah
-    </a>
+                            <form action="{{ route('matakuliah.delete',$m->id) }}"
+                                  method="POST"
+                                  class="d-inline">
 
-    <table>
+                                @csrf
+                                @method('DELETE')
 
-        <thead>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
 
-            <tr>
-                <th>No</th>
-                <th>Jurusan</th>
-                <th>Kode Mata Kuliah</th>
-                <th>Nama Mata Kuliah</th>
-                <th>Tanggal Dibuat</th>
-                <th>Aksi</th>
-            </tr>
+                                    Delete
 
-        </thead>
+                                </button>
 
-        <tbody>
+                            </form>
 
-        @foreach($mata_kuliah as $m)
+                        </td>
 
-        <tr>
+                    </tr>
 
-            <td>{{ $m->id }}</td>
-            <td>{{ $m->Jurusan }}</td>
-            <td>{{ $m->KodeMK }}</td>
-            <td>{{ $m->NamaMK }}</td>
-            <td>{{ $m->created_at }}</td>
+                @empty
 
-            <td>
+                    <tr>
 
-                <a href="{{ route('matakuliah.update',$m->id) }}" class="btn-edit">
-                    Edit
-                </a>
+                        <td colspan="6" class="text-center">
+                            Belum ada data mata kuliah.
+                        </td>
 
-                <form action="{{ route('matakuliah.delete',$m->id) }}" method="POST" style="margin-top:8px;">
+                    </tr>
 
-                    @csrf
-                    @method('DELETE')
+                @endforelse
 
-                    <button class="btn-delete">
-                        Delete
-                    </button>
+                </tbody>
 
-                </form>
+            </table>
 
-            </td>
+        </div>
 
-        </tr>
-
-        @endforeach
-
-        </tbody>
-
-    </table>
+    </div>
 
 </div>
 
-</body>
-</html>
+@endsection

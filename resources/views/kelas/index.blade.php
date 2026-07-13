@@ -1,165 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Kelas</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="card shadow">
 
-        body{
-            background:#f4f6f9;
-            padding:30px;
-        }
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-        .container{
-            max-width:1400px;
-            margin:auto;
-        }
+        <h4 class="mb-0">
+            Data Kelas
+        </h4>
 
-        h1{
-            color:#1e3a8a;
-            margin-bottom:20px;
-        }
+        <a href="/kelas/create"
+           class="btn btn-success">
 
-        .btn-create{
-            display:inline-block;
-            text-decoration:none;
-            background:#16a34a;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-            margin-bottom:20px;
-            font-weight:bold;
-        }
+            + Tambah Kelas
 
-        .btn-create:hover{
-            background:#15803d;
-        }
+        </a>
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            border-radius:10px;
-            overflow:hidden;
-        }
+    </div>
 
-        th{
-            background:#1e3a8a;
-            color:white;
-            padding:14px;
-        }
+    <div class="card-body">
 
-        td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #ddd;
-        }
+        <div class="table-responsive">
 
-        tr:hover{
-            background:#f1f5f9;
-        }
+            <table class="table table-bordered table-hover align-middle">
 
-        .btn-delete{
-            background:#dc2626;
-            color:white;
-            border:none;
-            padding:8px 15px;
-            border-radius:6px;
-            cursor:pointer;
-        }
+                <thead class="table-dark">
 
-        .btn-delete:hover{
-            background:#b91c1c;
-        }
+                    <tr>
 
-    </style>
+                        <th>No</th>
+                        <th>Kode Kelas</th>
+                        <th>Dosen</th>
+                        <th>Mata Kuliah</th>
+                        <th>Ruang</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Aksi</th>
 
-</head>
+                    </tr>
 
-<body>
+                </thead>
 
-<div class="container">
+                <tbody>
 
-    <h1>🏫 Data Kelas</h1>
+                @forelse($kelas as $m)
 
-    <a href="/kelas/create" class="btn-create">
-        + Tambah Kelas
-    </a>
+                    <tr>
 
-    <table>
+                        <td>{{ $m->id }}</td>
 
-        <thead>
+                        <td>{{ $m->kode_kelas }}</td>
 
-            <tr>
-                <th>No</th>
-                <th>Kode Kelas</th>
-                <th>Dosen</th>
-                <th>Mata Kuliah</th>
-                <th>Ruang</th>
-                <th>Hari</th>
-                <th>Jam</th>
-                <th>Tahun Ajaran</th>
-                <th>Aksi</th>
-            </tr>
+                        <td>{{ $m->dosen->Fullname }}</td>
 
-        </thead>
+                        <td>{{ $m->matakuliah->NamaMK }}</td>
 
-        <tbody>
+                        <td>{{ $m->ruang_kelas }}</td>
 
-        @foreach($kelas as $m)
+                        <td>{{ ucfirst($m->hari) }}</td>
 
-        <tr>
+                        <td>{{ $m->jam }}</td>
 
-            <td>{{ $m->id }}</td>
+                        <td>{{ $m->tahun_ajaran }}</td>
 
-            <td>{{ $m->kode_kelas }}</td>
+                        <td>
 
-            <td>{{ $m->dosen->Fullname }}</td>
+                            <form action="/kelas/{{ $m->id }}"
+                                  method="POST"
+                                  class="d-inline">
 
-            <td>{{ $m->matakuliah->NamaMK }}</td>
+                                @csrf
+                                @method('DELETE')
 
-            <td>{{ $m->ruang_kelas }}</td>
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Yakin ingin menghapus kelas ini?')">
 
-            <td>{{ $m->hari }}</td>
+                                    Delete
 
-            <td>{{ $m->jam }}</td>
+                                </button>
 
-            <td>{{ $m->tahun_ajaran }}</td>
+                            </form>
 
-            <td>
+                        </td>
 
-                <form action="/kelas/{{ $m->id }}" method="POST">
+                    </tr>
 
-                    @csrf
-                    @method('DELETE')
+                @empty
 
-                    <button class="btn-delete">
-                        Delete
-                    </button>
+                    <tr>
 
-                </form>
+                        <td colspan="9"
+                            class="text-center">
 
-            </td>
+                            Belum ada data kelas.
 
-        </tr>
+                        </td>
 
-        @endforeach
+                    </tr>
 
-        </tbody>
+                @endforelse
 
-    </table>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+@endsection

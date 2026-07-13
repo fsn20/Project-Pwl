@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class MahasiswaController
+class MahasiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,6 +17,7 @@ class MahasiswaController
         ]);
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
@@ -25,25 +26,49 @@ class MahasiswaController
         return view('mahasiswa.create');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
+        $request->validate([
+            'Fullname' => 'required',
+            'NIM' => 'required',
+            'NIDN' => 'required',
+            'Tempat_Lahir' => 'required',
+            'Tanggal_Lahir' => 'required',
+            'Alamat' => 'required',
+        ]);
 
-        Mahasiswa::create($data);
 
-        return redirect()->action([MahasiswaController::class, 'index']);
+        Mahasiswa::create([
+            'Fullname' => $request->Fullname,
+            'NIM' => $request->NIM,
+            'NIDN' => $request->NIDN,
+            'Tempat_Lahir' => $request->Tempat_Lahir,
+            'Tanggal_Lahir' => $request->Tanggal_Lahir,
+            'Alamat' => $request->Alamat,
+        ]);
+
+
+        return redirect()->action([MahasiswaController::class, 'index'])
+            ->with('success', 'Data mahasiswa berhasil ditambahkan.');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-        return Mahasiswa::find($id);
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
+        return view('mahasiswa.show', [
+            'mahasiswa' => $mahasiswa
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -51,29 +76,50 @@ class MahasiswaController
     public function edit($id)
     {
         return view('mahasiswa.edit', [
-            'mahasiswa' => Mahasiswa::find($id)
+            'mahasiswa' => Mahasiswa::findOrFail($id)
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token');
+        $request->validate([
+            'Fullname' => 'required',
+            'NIM' => 'required',
+            'NIDN' => 'required',
+            'Tempat_Lahir' => 'required',
+            'Tanggal_Lahir' => 'required',
+            'Alamat' => 'required',
+        ]);
 
-        Mahasiswa::find($id)->update($data);
 
-        return redirect()->action([MahasiswaController::class, 'index']);
+        Mahasiswa::findOrFail($id)->update([
+            'Fullname' => $request->Fullname,
+            'NIM' => $request->NIM,
+            'NIDN' => $request->NIDN,
+            'Tempat_Lahir' => $request->Tempat_Lahir,
+            'Tanggal_Lahir' => $request->Tanggal_Lahir,
+            'Alamat' => $request->Alamat,
+        ]);
+
+
+        return redirect()->action([MahasiswaController::class, 'index'])
+            ->with('success', 'Data mahasiswa berhasil diperbarui.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        Mahasiswa::find($id)->delete();//
+        Mahasiswa::findOrFail($id)->delete();
 
-        return redirect()->action([MahasiswaController::class, 'index']);
+
+        return redirect()->action([MahasiswaController::class, 'index'])
+            ->with('success', 'Data mahasiswa berhasil dihapus.');
     }
 }

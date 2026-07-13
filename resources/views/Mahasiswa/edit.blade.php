@@ -1,211 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Mahasiswa</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="row justify-content-center">
 
-        body{
-            background:#f4f6f9;
-            padding:40px;
-        }
+    <div class="col-lg-8">
 
-        .container{
-            width:700px;
-            margin:auto;
-        }
+        <div class="card shadow">
 
-        .card{
-            background:white;
-            border-radius:12px;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            padding:30px;
-        }
+            <div class="card-header bg-warning">
 
-        h1{
-            text-align:center;
-            color:#1e3a8a;
-            margin-bottom:30px;
-        }
+                <h4 class="mb-0">
+                    Edit Mahasiswa
+                </h4>
 
-        table{
-            width:100%;
-        }
+            </div>
 
-        td{
-            padding:12px;
-            vertical-align:top;
-        }
+            <div class="card-body">
 
-        input[type=text],
-        input[type=date],
-        textarea{
+                <form action="{{ route('mahasiswa.edit', $mahasiswa->id) }}" method="POST">
 
-            width:100%;
-            padding:10px;
-            border:1px solid #ccc;
-            border-radius:8px;
-            font-size:15px;
+                    @csrf
+                    @method('PUT')
 
-        }
+                    <div class="mb-3">
 
-        textarea{
-            resize:vertical;
-            height:100px;
-        }
+                        <label class="form-label">
+                            Nama Lengkap
+                        </label>
 
-        .button-group{
-            margin-top:20px;
-            text-align:center;
-        }
+                        <input
+                            type="text"
+                            name="Fullname"
+                            class="form-control"
+                            value="{{ $mahasiswa->Fullname }}"
+                            required>
 
-        .btn-update{
+                    </div>
 
-            background:#16a34a;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-            margin-right:10px;
+                    <div class="mb-3">
 
-        }
+                        <label class="form-label">
+                            NIM
+                        </label>
 
-        .btn-update:hover{
+                        <input
+                            type="text"
+                            name="NIM"
+                            class="form-control"
+                            value="{{ $mahasiswa->NIM }}"
+                            required>
 
-            background:#15803d;
+                    </div>
 
-        }
+                    <div class="mb-3">
 
-        .btn-reset{
+                        <label class="form-label">
+                            NISN
+                        </label>
 
-            background:#f59e0b;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-            margin-right:10px;
+                        <input
+                            type="text"
+                            name="NISN"
+                            class="form-control"
+                            value="{{ $mahasiswa->NISN }}"
+                            required>
 
-        }
+                    </div>
 
-        .btn-reset:hover{
+                    <div class="mb-3">
 
-            background:#d97706;
+                        <label class="form-label">
+                            Tempat Lahir
+                        </label>
 
-        }
+                        <input
+                            type="text"
+                            name="Tempat_Lahir"
+                            class="form-control"
+                            value="{{ $mahasiswa->Tempat_Lahir }}"
+                            required>
 
-        .btn-back{
+                    </div>
 
-            background:#2563eb;
-            color:white;
-            text-decoration:none;
-            padding:10px 20px;
-            border-radius:8px;
+                    <div class="mb-3">
 
-        }
+                        <label class="form-label">
+                            Tanggal Lahir
+                        </label>
 
-        .btn-back:hover{
+                        <input
+                            type="date"
+                            name="Tanggal_Lahir"
+                            class="form-control"
+                            value="{{ $mahasiswa->Tanggal_Lahir }}"
+                            required>
 
-            background:#1d4ed8;
+                    </div>
 
-        }
+                    <div class="mb-3">
 
-    </style>
+                        <label class="form-label">
+                            Alamat
+                        </label>
 
-</head>
+                        <textarea
+                            name="Alamat"
+                            rows="4"
+                            class="form-control"
+                            required>{{ $mahasiswa->Alamat }}</textarea>
 
-<body>
+                    </div>
 
-<div class="container">
+                    <div class="d-flex justify-content-between">
 
-<div class="card">
+                        <a href="/mahasiswa"
+                           class="btn btn-secondary">
 
-<h1>Edit Mahasiswa</h1>
+                            Kembali
 
-<form action="{{ route('mahasiswa.edit', $mahasiswa->id) }}" method="POST">
+                        </a>
 
-    @csrf
-    <input type="hidden" name="_method" value="PUT">
+                        <button
+                            type="submit"
+                            class="btn btn-warning">
 
-    <table>
+                            Update Data
 
-        <tr>
-            <td width="220">Nama Lengkap</td>
-            <td>
-                <input type="text" name="Fullname" value="{{ $mahasiswa->Fullname }}">
-            </td>
-        </tr>
+                        </button>
 
-        <tr>
-            <td>Nomor Induk Mahasiswa</td>
-            <td>
-                <input type="text" name="NIM" value="{{ $mahasiswa->NIM }}">
-            </td>
-        </tr>
+                    </div>
 
-        <tr>
-            <td>Nomor Induk Siswa Nasional</td>
-            <td>
-                <input type="text" name="NISN" value="{{ $mahasiswa->NISN }}">
-            </td>
-        </tr>
+                </form>
 
-        <tr>
-            <td>Tempat Lahir</td>
-            <td>
-                <input type="text" name="Tempat_Lahir" value="{{ $mahasiswa->Tempat_Lahir }}">
-            </td>
-        </tr>
+            </div>
 
-        <tr>
-            <td>Tanggal Lahir</td>
-            <td>
-                <input type="date" name="Tanggal_Lahir" value="{{ $mahasiswa->Tanggal_Lahir }}">
-            </td>
-        </tr>
-
-        <tr>
-            <td>Alamat</td>
-            <td>
-                <textarea name="Alamat">{{ $mahasiswa->Alamat }}</textarea>
-            </td>
-        </tr>
-
-    </table>
-
-    <div class="button-group">
-
-        <button type="submit" class="btn-update">
-            Update
-        </button>
-
-        <button type="reset" class="btn-reset">
-            Reset
-        </button>
-
-        <a href="{{ url('/mahasiswa') }}" class="btn-back">
-            Kembali
-        </a>
+        </div>
 
     </div>
 
-</form>
-
 </div>
 
-</div>
-
-</body>
-</html>
+@endsection

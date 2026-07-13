@@ -1,179 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Dosen</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-        body{
-            background:#f4f6f9;
-            padding:30px;
-        }
+    <div>
+        <h2 class="fw-bold">Data Dosen</h2>
+        <p class="text-muted mb-0">
+            Kelola seluruh data dosen.
+        </p>
+    </div>
 
-        .container{
-            max-width:1400px;
-            margin:auto;
-        }
-
-        h1{
-            color:#1e3a8a;
-            margin-bottom:20px;
-        }
-
-        .btn-create{
-            display:inline-block;
-            text-decoration:none;
-            background:#16a34a;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-            margin-bottom:20px;
-            font-weight:bold;
-            transition:.3s;
-        }
-
-        .btn-create:hover{
-            background:#15803d;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            border-radius:10px;
-            overflow:hidden;
-        }
-
-        th{
-            background:#1e3a8a;
-            color:white;
-            padding:14px;
-        }
-
-        td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #ddd;
-        }
-
-        tr:hover{
-            background:#f1f5f9;
-        }
-
-        .btn-edit{
-            background:#f59e0b;
-            color:white;
-            text-decoration:none;
-            padding:8px 15px;
-            border-radius:6px;
-            display:inline-block;
-            margin-bottom:5px;
-        }
-
-        .btn-edit:hover{
-            background:#d97706;
-        }
-
-        .btn-delete{
-            background:#dc2626;
-            color:white;
-            border:none;
-            padding:8px 15px;
-            border-radius:6px;
-            cursor:pointer;
-        }
-
-        .btn-delete:hover{
-            background:#b91c1c;
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>👨‍🏫 Data Dosen</h1>
-
-<a href="{{ route('dosen.add') }}" class="btn-create">
-    + Tambah Dosen
-</a>
-
-<table>
-
-    <thead>
-
-        <tr>
-            <th>No</th>
-            <th>Nama Lengkap</th>
-            <th>Nomor Dosen</th>
-            <th>Tempat Lahir</th>
-            <th>Tanggal Lahir</th>
-            <th>Pendidikan Terakhir</th>
-            <th>Jurusan</th>
-            <th>Alamat</th>
-            <th>Tanggal Dibuat</th>
-            <th>Aksi</th>
-        </tr>
-
-    </thead>
-
-    <tbody>
-
-    @foreach($dosen as $m)
-
-        <tr>
-
-            <td>{{ $m->id }}</td>
-            <td>{{ $m->Fullname }}</td>
-            <td>{{ $m->ND }}</td>
-            <td>{{ $m->Tempat_Lahir }}</td>
-            <td>{{ $m->Tanggal_Lahir }}</td>
-            <td>{{ $m->Pendidikan_Terakhir }}</td>
-            <td>{{ $m->Jurusan }}</td>
-            <td>{{ $m->Alamat }}</td>
-            <td>{{ $m->created_at }}</td>
-
-            <td>
-
-                <a href="{{ route('dosen.update', $m->id) }}" class="btn-edit">
-                    Edit
-                </a>
-
-                <form action="{{ route('dosen.delete', $m->id) }}" method="POST" style="margin-top:8px;">
-
-                    @csrf
-                    <input type="hidden" name="_method" value="DELETE">
-
-                    <button type="submit" class="btn-delete">
-                        Delete
-                    </button>
-
-                </form>
-
-            </td>
-
-        </tr>
-
-    @endforeach
-
-    </tbody>
-
-</table>
+    <a href="{{ route('dosen.add') }}" class="btn btn-success">
+        + Tambah Dosen
+    </a>
 
 </div>
 
-</body>
-</html>
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>No</th>
+                        <th>Nama Lengkap</th>
+                        <th>Nomor Dosen</th>
+                        <th>Tempat Lahir</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Pendidikan</th>
+                        <th>Jurusan</th>
+                        <th>Alamat</th>
+                        <th>Dibuat</th>
+                        <th width="180">Aksi</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                @forelse($dosen as $d)
+
+                    <tr>
+
+                        <td>{{ $loop->iteration }}</td>
+
+                        <td>{{ $d->Fullname }}</td>
+
+                        <td>{{ $d->ND }}</td>
+
+                        <td>{{ $d->Tempat_Lahir }}</td>
+
+                        <td>{{ $d->Tanggal_Lahir }}</td>
+
+                        <td>{{ $d->Pendidikan_Terakhir }}</td>
+
+                        <td>{{ $d->Jurusan }}</td>
+
+                        <td>{{ $d->Alamat }}</td>
+
+                        <td>{{ $d->created_at->format('d-m-Y') }}</td>
+
+                        <td>
+
+                            <a href="{{ route('dosen.update',$d->id) }}"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                            <form
+                                action="{{ route('dosen.delete',$d->id) }}"
+                                method="POST"
+                                class="d-inline">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Yakin ingin menghapus data dosen ini?')">
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="10" class="text-center">
+
+                            Belum ada data dosen.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection

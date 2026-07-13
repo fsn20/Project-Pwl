@@ -34,7 +34,8 @@ class JurusanController extends Controller
 
         Jurusan::create($data);
 
-        return redirect()->action([JurusanController::class, 'index']);
+        return redirect()->action([JurusanController::class, 'index'])
+            ->with('success', 'Data jurusan berhasil ditambahkan.');
     }
 
     /**
@@ -60,11 +61,12 @@ class JurusanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token', 'id', '_method');
+        $data = $request->except('_token', '_method', 'id');
 
         Jurusan::find($id)->update($data);
 
-        return redirect()->action([JurusanController::class, 'index']);
+        return redirect()->action([JurusanController::class, 'index'])
+            ->with('success', 'Data jurusan berhasil diperbarui.');
     }
 
     /**
@@ -72,8 +74,9 @@ class JurusanController extends Controller
      */
     public function destroy($id)
     {
-        Jurusan::find($id)->delete();//
+        Jurusan::findOrFail($id)->delete();
 
-        return redirect()->action([JurusanController::class, 'index']);
+        return redirect()->action([JurusanController::class, 'index'])
+            ->with('success', 'Data jurusan berhasil dihapus.');
     }
 }

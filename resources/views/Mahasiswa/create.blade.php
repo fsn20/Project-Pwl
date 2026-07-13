@@ -1,209 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Mahasiswa</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="row justify-content-center">
 
-        body{
-            background:#f4f6f9;
-            padding:40px;
-        }
+    <div class="col-lg-8">
 
-        .container{
-            width:700px;
-            margin:auto;
-        }
+        <div class="card shadow">
 
-        .card{
-            background:white;
-            border-radius:12px;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            padding:30px;
-        }
+            <div class="card-header bg-success text-white">
 
-        h1{
-            text-align:center;
-            color:#1e3a8a;
-            margin-bottom:30px;
-        }
+                <h4 class="mb-0">
+                    Tambah Mahasiswa
+                </h4>
 
-        table{
-            width:100%;
-        }
+            </div>
 
-        td{
-            padding:12px;
-            vertical-align:top;
-        }
+            <div class="card-body">
 
-        input[type=text],
-        input[type=date],
-        textarea{
+                <form action="{{ route('mahasiswa.save') }}" method="POST">
 
-            width:100%;
-            padding:10px;
-            border:1px solid #ccc;
-            border-radius:8px;
-            font-size:15px;
+                    @csrf
 
-        }
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Nama Lengkap
+                        </label>
 
-        textarea{
-            resize:vertical;
-            height:100px;
-        }
+                        <input
+                            type="text"
+                            name="Fullname"
+                            class="form-control"
+                            required>
+                    </div>
 
-        .button-group{
-            margin-top:20px;
-            text-align:center;
-        }
 
-        .btn-save{
+                    <div class="mb-3">
+                        <label class="form-label">
+                            NIM
+                        </label>
 
-            background:#16a34a;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-            margin-right:10px;
+                        <input
+                            type="text"
+                            name="NIM"
+                            class="form-control"
+                            required>
+                    </div>
 
-        }
 
-        .btn-save:hover{
+                    <div class="mb-3">
+                        <label class="form-label">
+                            NIDN
+                        </label>
 
-            background:#15803d;
+                        <input
+                            type="text"
+                            name="NIDN"
+                            class="form-control"
+                            required>
+                    </div>
 
-        }
 
-        .btn-reset{
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Tempat Lahir
+                        </label>
 
-            background:#f59e0b;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-            margin-right:10px;
+                        <input
+                            type="text"
+                            name="Tempat_Lahir"
+                            class="form-control"
+                            required>
+                    </div>
 
-        }
 
-        .btn-reset:hover{
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Tanggal Lahir
+                        </label>
 
-            background:#d97706;
+                        <input
+                            type="date"
+                            name="Tanggal_Lahir"
+                            class="form-control"
+                            required>
+                    </div>
 
-        }
 
-        .btn-back{
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Alamat
+                        </label>
 
-            background:#2563eb;
-            color:white;
-            text-decoration:none;
-            padding:10px 20px;
-            border-radius:8px;
+                        <textarea
+                            name="Alamat"
+                            rows="4"
+                            class="form-control"
+                            required></textarea>
+                    </div>
 
-        }
 
-        .btn-back:hover{
+                    <div class="d-flex justify-content-between">
 
-            background:#1d4ed8;
+                        <a href="/mahasiswa"
+                           class="btn btn-secondary">
+                            Kembali
+                        </a>
 
-        }
 
-    </style>
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+                            Simpan Data
+                        </button>
 
-</head>
-<body>
+                    </div>
 
-<div class="container">
 
-<div class="card">
+                </form>
 
-<h1>Tambah Mahasiswa</h1>
+            </div>
 
-<form action="{{ route('mahasiswa.save') }}" method="POST">
-
-    @csrf
-
-    <table>
-
-        <tr>
-            <td width="220">Nama Lengkap</td>
-            <td>
-                <input type="text" name="Fullname">
-            </td>
-        </tr>
-
-        <tr>
-            <td>Nomor Induk Mahasiswa</td>
-            <td>
-                <input type="text" name="NIM">
-            </td>
-        </tr>
-
-        <tr>
-            <td>Nomor Induk Siswa Nasional</td>
-            <td>
-                <input type="text" name="NISN">
-            </td>
-        </tr>
-
-        <tr>
-            <td>Tempat Lahir</td>
-            <td>
-                <input type="text" name="Tempat_Lahir">
-            </td>
-        </tr>
-
-        <tr>
-            <td>Tanggal Lahir</td>
-            <td>
-                <input type="date" name="Tanggal_Lahir">
-            </td>
-        </tr>
-
-        <tr>
-            <td>Alamat</td>
-            <td>
-                <textarea name="Alamat"></textarea>
-            </td>
-        </tr>
-
-    </table>
-
-    <div class="button-group">
-
-        <button class="btn-save" type="submit">
-            Simpan
-        </button>
-
-        <button class="btn-reset" type="reset">
-            Reset
-        </button>
-
-        <a href="{{ url('/mahasiswa') }}" class="btn-back">
-            Kembali
-        </a>
+        </div>
 
     </div>
 
-</form>
-
 </div>
 
-</div>
-
-</body>
-</html>
+@endsection

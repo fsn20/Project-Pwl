@@ -1,174 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Data Mata Kuliah</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="row justify-content-center">
 
-        body{
-            background:#f4f6f9;
-            padding:40px;
-        }
+    <div class="col-lg-7">
 
-        .container{
-            max-width:700px;
-            margin:auto;
-        }
+        <div class="card shadow">
 
-        .card{
-            background:white;
-            padding:30px;
-            border-radius:12px;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-        }
+            <div class="card-header bg-warning text-dark">
 
-        h1{
-            text-align:center;
-            color:#1e3a8a;
-            margin-bottom:25px;
-        }
-
-        .form-group{
-            margin-bottom:20px;
-        }
-
-        label{
-            display:block;
-            margin-bottom:8px;
-            font-weight:bold;
-        }
-
-        input{
-            width:100%;
-            padding:10px;
-            border:1px solid #ccc;
-            border-radius:8px;
-            font-size:15px;
-        }
-
-        .button-group{
-            display:flex;
-            gap:15px;
-            margin-top:25px;
-        }
-
-        .btn-update{
-            flex:1;
-            background:#f59e0b;
-            color:white;
-            border:none;
-            padding:12px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-            font-weight:bold;
-        }
-
-        .btn-update:hover{
-            background:#d97706;
-        }
-
-        .btn-reset{
-            flex:1;
-            background:#dc2626;
-            color:white;
-            border:none;
-            padding:12px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-            font-weight:bold;
-        }
-
-        .btn-reset:hover{
-            background:#b91c1c;
-        }
-
-        .btn-back{
-            display:inline-block;
-            margin-bottom:20px;
-            text-decoration:none;
-            background:#2563eb;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-        }
-
-        .btn-back:hover{
-            background:#1d4ed8;
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <a href="{{ action([App\Http\Controllers\MatakuliahController::class,'index']) }}" class="btn-back">
-        ← Kembali
-    </a>
-
-    <div class="card">
-
-        <h1>Edit Data Mata Kuliah</h1>
-
-        <form action="{{ route('matakuliah.edit', $matakuliah->id) }}" method="POST">
-
-            @csrf
-            @method('PUT')
-
-            <div class="form-group">
-                <label>Jurusan</label>
-                <input type="text"
-                       name="Jurusan"
-                       value="{{ $matakuliah->Jurusan }}"
-                       required>
-            </div>
-
-            <div class="form-group">
-                <label>Kode Mata Kuliah</label>
-                <input type="text"
-                       name="KodeMK"
-                       value="{{ $matakuliah->KodeMK }}"
-                       required>
-            </div>
-
-            <div class="form-group">
-                <label>Nama Mata Kuliah</label>
-                <input type="text"
-                       name="NamaMK"
-                       value="{{ $matakuliah->NamaMK }}"
-                       required>
-            </div>
-
-            <div class="button-group">
-
-                <button type="submit" class="btn-update">
-                    Update
-                </button>
-
-                <button type="reset" class="btn-reset">
-                    Reset
-                </button>
+                <h4 class="mb-0">
+                    Edit Mata Kuliah
+                </h4>
 
             </div>
 
-        </form>
+            <div class="card-body">
+
+                <form action="{{ route('matakuliah.edit', $matakuliah->id) }}" method="POST">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Jurusan
+                        </label>
+
+                        <input type="text"
+                               name="Jurusan"
+                               class="form-control"
+                               value="{{ $matakuliah->Jurusan }}"
+                               required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Kode Mata Kuliah
+                        </label>
+
+                        <input type="text"
+                               name="KodeMK"
+                               class="form-control"
+                               value="{{ $matakuliah->KodeMK }}"
+                               required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Nama Mata Kuliah
+                        </label>
+
+                        <input type="text"
+                               name="NamaMK"
+                               class="form-control"
+                               value="{{ $matakuliah->NamaMK }}"
+                               required>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <a href="/matakuliah"
+                           class="btn btn-secondary">
+
+                            Kembali
+
+                        </a>
+
+                        <div>
+
+                            <button type="reset"
+                                    class="btn btn-danger">
+
+                                Reset
+
+                            </button>
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+
+                                Update
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
-</body>
-</html>
+@endsection

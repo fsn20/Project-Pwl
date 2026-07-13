@@ -31,7 +31,6 @@ class KrsController extends Controller
             'kode_mahasiswa' => 'required',
             'tahun_ajaran' => 'required',
             'semester' => 'required',
-            'status' => 'required',
             'total_sks' => 'required'
         ]);
 
@@ -39,11 +38,36 @@ class KrsController extends Controller
             'kode_mahasiswa' => $request->kode_mahasiswa,
             'tahun_ajaran' => $request->tahun_ajaran,
             'semester' => $request->semester,
-            'status' => $request->status,
+            'status' => 'pending',
             'total_sks' => $request->total_sks
         ]);
 
-        return redirect('/krs');
+        return redirect('/krs')
+            ->with('success', 'Data KRS berhasil ditambahkan.');
+    }
+
+    // Approve KRS
+    public function approve($id)
+    {
+        $krs = Krs::findOrFail($id);
+
+        $krs->status = 'approved';
+        $krs->save();
+
+        return redirect('/krs')
+            ->with('success', 'KRS berhasil di-approve.');
+    }
+
+    // Reject KRS
+    public function reject($id)
+    {
+        $krs = Krs::findOrFail($id);
+
+        $krs->status = 'declined';
+        $krs->save();
+
+        return redirect('/krs')
+            ->with('success', 'KRS berhasil di-reject.');
     }
 
     // Hapus
@@ -51,6 +75,7 @@ class KrsController extends Controller
     {
         Krs::findOrFail($id)->delete();
 
-        return redirect('/krs');
+        return redirect('/krs')
+            ->with('success', 'Data KRS berhasil dihapus.');
     }
 }

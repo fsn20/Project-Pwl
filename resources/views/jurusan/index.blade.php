@@ -1,167 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Jurusan</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="card shadow">
 
-        body{
-            background:#f4f6f9;
-            padding:30px;
-        }
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-        .container{
-            max-width:1000px;
-            margin:auto;
-        }
+        <h4 class="mb-0">
+            Data Jurusan
+        </h4>
 
-        h1{
-            color:#1e3a8a;
-            margin-bottom:20px;
-        }
+        <a href="{{ route('jurusan.add') }}" class="btn btn-success">
+            + Tambah Jurusan
+        </a>
 
-        .btn-create{
-            display:inline-block;
-            text-decoration:none;
-            background:#16a34a;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-            margin-bottom:20px;
-            font-weight:bold;
-            transition:.3s;
-        }
+    </div>
 
-        .btn-create:hover{
-            background:#15803d;
-        }
+    <div class="card-body">
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            border-radius:10px;
-            overflow:hidden;
-        }
+        <div class="table-responsive">
 
-        th{
-            background:#1e3a8a;
-            color:white;
-            padding:14px;
-        }
+            <table class="table table-bordered table-hover align-middle">
 
-        td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #ddd;
-        }
+                <thead class="table-dark">
 
-        tr:hover{
-            background:#f1f5f9;
-        }
+                    <tr>
+                        <th width="60">No</th>
+                        <th>Nama Jurusan</th>
+                        <th>Kode Jurusan</th>
+                        <th>Tanggal Dibuat</th>
+                        <th width="170">Aksi</th>
+                    </tr>
 
-        .btn-edit{
-            background:#f59e0b;
-            color:white;
-            text-decoration:none;
-            padding:8px 15px;
-            border-radius:6px;
-            display:inline-block;
-            margin-bottom:8px;
-        }
+                </thead>
 
-        .btn-edit:hover{
-            background:#d97706;
-        }
+                <tbody>
 
-        .btn-delete{
-            background:#dc2626;
-            color:white;
-            border:none;
-            padding:8px 15px;
-            border-radius:6px;
-            cursor:pointer;
-        }
+                @forelse($jurusan as $m)
 
-        .btn-delete:hover{
-            background:#b91c1c;
-        }
+                    <tr>
 
-    </style>
+                        <td>{{ $m->id }}</td>
 
-</head>
+                        <td>{{ $m->Nama_Jurusan }}</td>
 
-<body>
+                        <td>{{ $m->Kode_Jurusan }}</td>
 
-<div class="container">
+                        <td>{{ $m->created_at }}</td>
 
-    <h1>📚 Data Jurusan</h1>
+                        <td>
 
-    <a href="{{ route('jurusan.add') }}" class="btn-create">
-        + Tambah Jurusan
-    </a>
+                            <a href="{{ route('jurusan.update',$m->id) }}"
+                               class="btn btn-warning btn-sm">
 
-    <table>
+                                Edit
 
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Jurusan</th>
-                <th>Kode Jurusan</th>
-                <th>Tanggal Dibuat</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
+                            </a>
 
-        <tbody>
+                            <form action="{{ route('jurusan.delete',$m->id) }}"
+                                  method="POST"
+                                  class="d-inline">
 
-        @foreach($jurusan as $m)
+                                @csrf
+                                @method('DELETE')
 
-        <tr>
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
 
-            <td>{{ $m->id }}</td>
-            <td>{{ $m->Nama_Jurusan }}</td>
-            <td>{{ $m->Kode_Jurusan }}</td>
-            <td>{{ $m->created_at }}</td>
+                                    Delete
 
-            <td>
+                                </button>
 
-                <a href="{{ route('jurusan.update',$m->id) }}" class="btn-edit">
-                    Edit
-                </a>
+                            </form>
 
-                <form action="{{ route('jurusan.delete',$m->id) }}" method="POST" style="margin-top:8px;">
+                        </td>
 
-                    @csrf
-                    @method('DELETE')
+                    </tr>
 
-                    <button class="btn-delete">
-                        Delete
-                    </button>
+                @empty
 
-                </form>
+                    <tr>
 
-            </td>
+                        <td colspan="5" class="text-center">
+                            Belum ada data jurusan.
+                        </td>
 
-        </tr>
+                    </tr>
 
-        @endforeach
+                @endforelse
 
-        </tbody>
+                </tbody>
 
-    </table>
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+@endsection

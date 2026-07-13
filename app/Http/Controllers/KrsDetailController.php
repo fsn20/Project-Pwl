@@ -40,17 +40,43 @@ class KrsDetailController extends Controller
     {
         $request->validate([
             'kode_krs' => 'required',
-            'kode_kelas' => 'required',
-            'status' => 'required'
+            'kode_kelas' => 'required'
         ]);
 
         KrsDetail::create([
             'kode_krs' => $request->kode_krs,
             'kode_kelas' => $request->kode_kelas,
-            'status' => $request->status
+            'status' => 'pending'
         ]);
 
-        return redirect('/krs-detail');
+        return redirect('/krs-detail')
+            ->with('success', 'Detail KRS berhasil ditambahkan.');
+    }
+
+    // Approve KRS Detail
+    public function approve($id)
+    {
+        $detail = KrsDetail::findOrFail($id);
+
+        $detail->status = 'approved';
+
+        $detail->save();
+
+        return redirect('/krs-detail')
+            ->with('success', 'Detail KRS berhasil di-approve.');
+    }
+
+    // Reject KRS Detail
+    public function reject($id)
+    {
+        $detail = KrsDetail::findOrFail($id);
+
+        $detail->status = 'declined';
+
+        $detail->save();
+
+        return redirect('/krs-detail')
+            ->with('success', 'Detail KRS berhasil di-reject.');
     }
 
     // Hapus
@@ -58,6 +84,7 @@ class KrsDetailController extends Controller
     {
         KrsDetail::findOrFail($id)->delete();
 
-        return redirect('/krs-detail');
+        return redirect('/krs-detail')
+            ->with('success', 'Detail KRS berhasil dihapus.');
     }
 }

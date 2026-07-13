@@ -1,161 +1,192 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data KRS</title>
+@extends('layouts.app')
 
-    <style>
+@section('content')
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<div class="card shadow">
 
-        body{
-            background:#f4f6f9;
-            padding:30px;
-        }
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-        .container{
-            max-width:1300px;
-            margin:auto;
-        }
+        <h4 class="mb-0">
 
-        h1{
-            color:#1e3a8a;
-            margin-bottom:20px;
-        }
+            Data KRS
 
-        .btn-create{
-            display:inline-block;
-            text-decoration:none;
-            background:#16a34a;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-            margin-bottom:20px;
-            font-weight:bold;
-        }
+        </h4>
 
-        .btn-create:hover{
-            background:#15803d;
-        }
+        @if(Auth::user()->role == 'admin' || Auth::user()->role == 'mahasiswa')
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-            border-radius:10px;
-            overflow:hidden;
-        }
+            <a href="/krs/create"
+               class="btn btn-success">
 
-        th{
-            background:#1e3a8a;
-            color:white;
-            padding:14px;
-        }
+                + Tambah KRS
 
-        td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #ddd;
-        }
+            </a>
 
-        tr:hover{
-            background:#eef5ff;
-        }
+        @endif
 
-        .btn-delete{
-            background:#dc2626;
-            color:white;
-            border:none;
-            padding:8px 15px;
-            border-radius:6px;
-            cursor:pointer;
-        }
+    </div>
 
-        .btn-delete:hover{
-            background:#b91c1c;
-        }
+    <div class="card-body">
 
-    </style>
+        <div class="table-responsive">
 
-</head>
-<body>
+            <table class="table table-bordered table-hover align-middle">
 
-<div class="container">
+                <thead class="table-dark">
 
-    <h1>📖 Data KRS</h1>
+                    <tr>
 
-    <a href="/krs/create" class="btn-create">
-        + Tambah KRS
-    </a>
+                        <th>No</th>
+                        <th>Mahasiswa</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Semester</th>
+                        <th>Status</th>
+                        <th>Total SKS</th>
+                        <th>Tanggal Dibuat</th>
 
-    <table>
+                        @if(Auth::user()->role != 'mahasiswa')
+                            <th width="220">Aksi</th>
+                        @endif
 
-        <thead>
+                    </tr>
 
-        <tr>
-            <th>No</th>
-            <th>Nama Mahasiswa</th>
-            <th>Tahun Ajaran</th>
-            <th>Semester</th>
-            <th>Status</th>
-            <th>Total SKS</th>
-            <th>Tanggal Dibuat</th>
-            <th>Aksi</th>
-        </tr>
+                </thead>
 
-        </thead>
+                <tbody>
 
-        <tbody>
+                @forelse($krs as $m)
 
-        @foreach ($krs as $m)
+                    <tr>
 
-        <tr>
+                        <td>{{ $m->id }}</td>
 
-            <td>{{ $m->id }}</td>
+                        <td>{{ $m->mahasiswa->Fullname }}</td>
 
-            <td>{{ $m->mahasiswa->Fullname }}</td>
+                        <td>{{ $m->tahun_ajaran }}</td>
 
-            <td>{{ $m->tahun_ajaran }}</td>
+                        <td>{{ ucfirst($m->semester) }}</td>
 
-            <td>{{ $m->semester }}</td>
+                        <td>
 
-            <td>{{ $m->status }}</td>
+                            @if($m->status == 'approved')
 
-            <td>{{ $m->total_sks }}</td>
+                                <span class="badge bg-success">
+                                    Approved
+                                </span>
 
-            <td>{{ $m->created_at }}</td>
+                            @elseif($m->status == 'pending')
 
-            <td>
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
 
-                <form action="/krs/{{ $m->id }}" method="POST">
+                            @elseif($m->status == 'declined')
 
-                    @csrf
-                    @method('DELETE')
+                                <span class="badge bg-danger">
+                                    Declined
+                                </span>
 
-                    <button class="btn-delete">
-                        Delete
-                    </button>
+                            @else
 
-                </form>
+                                <span class="badge bg-info">
+                                    {{ ucfirst($m->status) }}
+                                </span>
 
-            </td>
+                            @endif
 
-        </tr>
+                        </td>
 
-        @endforeach
+                        <td>{{ $m->total_sks }}</td>
 
-        </tbody>
+                        <td>{{ $m->created_at }}</td>
 
-    </table>
+                        @if(Auth::user()->role != 'mahasiswa')
+
+                        <td>
+
+                            @if(Auth::user()->role == 'admin')
+
+                                <form action="/krs/{{ $m->id }}"
+                                      method="POST"
+                                      class="d-inline">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus KRS ini?')">
+
+                                        Delete
+
+                                    </button>
+
+                                </form>
+
+                            @endif
+
+                            @if(Auth::user()->role == 'dosen')
+
+                                <form action="/krs/{{ $m->id }}/approve"
+                                      method="POST"
+                                      class="d-inline">
+
+                                    @csrf
+                                    @method('PUT')
+
+                                    <button class="btn btn-success btn-sm">
+
+                                        Approve
+
+                                    </button>
+
+                                </form>
+
+                                <form action="/krs/{{ $m->id }}/reject"
+                                      method="POST"
+                                      class="d-inline">
+
+                                    @csrf
+                                    @method('PUT')
+
+                                    <button class="btn btn-warning btn-sm">
+
+                                        Reject
+
+                                    </button>
+
+                                </form>
+
+                            @endif
+
+                        </td>
+
+                        @endif
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="{{ Auth::user()->role == 'mahasiswa' ? 7 : 8 }}"
+                            class="text-center">
+
+                            Belum ada data KRS.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+@endsection
